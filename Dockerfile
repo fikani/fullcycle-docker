@@ -1,9 +1,9 @@
 #build stage
 FROM golang:alpine AS builder
 COPY main.go /
-RUN go build -o /main /main.go 
+RUN go build -ldflags "-w" -o /main /main.go 
 
 #final stage
-FROM alpine
+FROM scratch
 COPY --from=builder /main /
-ENTRYPOINT ./main
+ENTRYPOINT ["./main"]
